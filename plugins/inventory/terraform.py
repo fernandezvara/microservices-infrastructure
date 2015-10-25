@@ -145,6 +145,11 @@ def digitalocean_host(resource, tfvars=None):
     name = raw_attrs['name']
     groups = []
 
+    if raw_attrs.has_key("ipv4_address_private"):
+        private_ipv4 = raw_attrs['ipv4_address_private']
+    else:
+        private_ipv4 = raw_attrs['ipv4_address']
+
     attrs = {
         'id': raw_attrs['id'],
         'image': raw_attrs['image'],
@@ -161,7 +166,7 @@ def digitalocean_host(resource, tfvars=None):
         'ansible_ssh_user': 'root',  # it's always "root" on DO
         # generic
         'public_ipv4': raw_attrs['ipv4_address'],
-        'private_ipv4': raw_attrs['ipv4_address'],
+        'private_ipv4': private_ipv4,
         'provider': 'digitalocean',
     }
 
